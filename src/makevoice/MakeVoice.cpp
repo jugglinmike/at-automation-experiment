@@ -58,7 +58,7 @@ HRESULT registerDll(const std::string& fileName)
     ZeroMemory(&startup_info, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
     ZeroMemory(&process_info, sizeof(process_info));
-    std::string command = std::string("regsvr32 /c \"") + getSiblingFilePath(fileName) + "x\"";
+    std::string command = std::string("regsvr32 /s /c \"") + getSiblingFilePath(fileName) + "\"";
     DWORD dwFlags = CREATE_NO_WINDOW;
 
     bool result = CreateProcessW(
@@ -91,7 +91,6 @@ HRESULT registerDll(const std::string& fileName)
     CloseHandle(process_info.hProcess);
     CloseHandle(process_info.hThread);
 
-    return S_OK;
     return exitCode == 0 ? S_OK : E_FAIL;
 }
 
