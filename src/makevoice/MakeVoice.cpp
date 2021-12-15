@@ -96,9 +96,12 @@ HRESULT registerDll(const std::string& fileName)
 
 int wmain(int argc, __in_ecount(argc) WCHAR* argv[])
 {
-    HRESULT hr = S_OK;
+    HRESULT hr = ::CoInitialize( NULL );
 
-    ::CoInitialize( NULL );
+    if (SUCCEEDED(hr))
+    {
+        hr = registerDll("AutomationTtsEngine.dll");
+    }
 
     // Programatically create a token for the new voice and set its attributes.
     if (SUCCEEDED(hr))
@@ -152,11 +155,6 @@ int wmain(int argc, __in_ecount(argc) WCHAR* argv[])
             getSiblingFilePath("Vocalizer.exe").c_str(),
             AUTOMATION_VOICE_HOME "\\Vocalizer.exe"
         );
-    }
-
-    if (SUCCEEDED(hr))
-    {
-        hr = registerDll("AutomationTtsEngine.dll");
     }
 
     ::CoUninitialize();
